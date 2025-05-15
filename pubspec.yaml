@@ -1,4 +1,4 @@
-name: formio_flutter
+name: formio
 description: A dynamic form rendering and submission package for Flutter using Form.io schemas.
 version: 0.1.0
 homepage: https://spinex.io

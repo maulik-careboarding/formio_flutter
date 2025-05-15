@@ -1,4 +1,4 @@
-# 📦 formio_flutter
+# 📦 formio
 
 A dynamic Form.io renderer for Flutter. This package allows you to render and submit Form.io forms directly in your Flutter app using native widgets — including support for all standard, advanced, data, layout, and premium components.
 
@@ -26,7 +26,7 @@ Add the dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  formio_flutter:
+  formio:
     git:
       url: https://github.com/mskayali/formio_flutter.git
 ```
@@ -53,7 +53,7 @@ FormRenderer(
 
 ```bash
 lib/
-├── formio_flutter.dart         # Library entry point
+├── formio.dart         # Library entry point
 ├── models/                     # Form, component, submission models
 ├── services/                   # API services
 ├── widgets/                    # Components + FormRenderer

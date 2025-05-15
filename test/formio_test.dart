@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formio_flutter/models/component.dart';
-import 'package:formio_flutter/models/form.dart';
-import 'package:formio_flutter/widgets/form_renderer.dart';
+import 'package:formio/models/component.dart';
+import 'package:formio/models/form.dart';
+import 'package:formio/widgets/form_renderer.dart';
 
 void main() {
   group('FormRenderer', () {

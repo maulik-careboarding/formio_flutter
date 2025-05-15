@@ -9,7 +9,7 @@ This project follows [Semantic Versioning](https://semver.org).
 ## [0.1.0] - 2025-05-15
 
 ### ✨ Added
-- Initial release of `formio_flutter`.
+- Initial release of `formio`.
 - ✅ Dynamic rendering of Form.io components:
   - Basic components: `textfield`, `textarea`, `number`, `checkbox`, `select`, `radio`, `button`, etc.
   - Advanced components: `datetime`, `currency`, `signature`, `survey`, `day`, `time`, etc.
