@@ -22,17 +22,17 @@ class TableComponent extends StatelessWidget {
   const TableComponent({Key? key, required this.component, required this.value, required this.onChanged}) : super(key: key);
 
   /// Returns a list of rows, where each row is a list of components.
-  List<List<ComponentModel>> get _rows {
-    final rows = component.raw['rows'] as List? ?? [];
+  // List<List<ComponentModel>> get _rows {
+  //   final rows = component.raw['rows'] as List? ?? [];
 
-    return rows.map<List<ComponentModel>>((row) {
-      final cells = row as List;
-      return cells.expand<ComponentModel>((cell) {
-        final components = cell['components'] as List? ?? [];
-        return components.map((c) => ComponentModel.fromJson(c));
-      }).toList();
-    }).toList();
-  }
+  //   return rows.map<List<ComponentModel>>((row) {
+  //     final cells = row as List;
+  //     return cells.expand<ComponentModel>((cell) {
+  //       final components = cell['components'] as List? ?? [];
+  //       return components.map((c) => ComponentModel.fromJson(c));
+  //     }).toList();
+  //   }).toList();
+  // }
 
   /// Helper to build a single cell's widget content.
   Widget _buildCell(ComponentModel component) {

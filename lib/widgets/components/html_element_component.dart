@@ -19,7 +19,7 @@ class HtmlElementComponent extends StatelessWidget {
   String get _htmlContent => component.raw['tag'] == 'hr' ? '<hr/>' : component.raw['content']?.toString() ?? '';
 
   /// Optional CSS class (unused by default).
-  String? get _cssClass => component.raw['className'];
+  // String? get _cssClass => component.raw['className'];
 
   @override
   Widget build(BuildContext context) {

@@ -26,19 +26,19 @@ class ButtonComponent extends StatelessWidget {
   String get _label => component.label.isNotEmpty ? component.label : (component.raw['label'] ?? 'Submit').toString();
 
   /// Determines the action type of the button.
-  ButtonAction get _action {
-    final type = component.raw['action'] ?? 'submit';
-    switch (type) {
-      case 'submit':
-        return ButtonAction.submit;
-      case 'reset':
-        return ButtonAction.reset;
-      case 'event':
-        return ButtonAction.custom;
-      default:
-        return ButtonAction.unknown;
-    }
-  }
+  // ButtonAction get _action {
+  //   final type = component.raw['action'] ?? 'submit';
+  //   switch (type) {
+  //     case 'submit':
+  //       return ButtonAction.submit;
+  //     case 'reset':
+  //       return ButtonAction.reset;
+  //     case 'event':
+  //       return ButtonAction.custom;
+  //     default:
+  //       return ButtonAction.unknown;
+  //   }
+  // }
 
   /// Chooses a button style based on the theme specified in the component.
   ButtonStyle _style(BuildContext context) {

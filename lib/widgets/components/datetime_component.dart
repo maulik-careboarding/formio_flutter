@@ -38,7 +38,7 @@ class _DateTimeComponentState extends State<DateTimeComponent> {
   bool get _enableDate => widget.component.raw['enableDate'] ?? true;
 
   /// The display format for the date/time.
-  String get _format => widget.component.raw['format'] ?? 'yyyy-MM-dd';
+  // String get _format => widget.component.raw['format'] ?? 'yyyy-MM-dd';
 
   @override
   void initState() {
@@ -67,13 +67,13 @@ class _DateTimeComponentState extends State<DateTimeComponent> {
   }
 
   /// Parses a string into a DateTime object.
-  DateTime? _parseDateTime(String input) {
-    try {
-      return DateTime.parse(input);
-    } catch (_) {
-      return null;
-    }
-  }
+  // DateTime? _parseDateTime(String input) {
+  //   try {
+  //     return DateTime.parse(input);
+  //   } catch (_) {
+  //     return null;
+  //   }
+  // }
 
   /// Validates the input based on requirement.
   String? _validator(String? input) {

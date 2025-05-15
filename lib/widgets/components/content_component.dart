@@ -18,7 +18,7 @@ class ContentComponent extends StatelessWidget {
   String get _content => component.raw['html'] ?? '';
 
   /// Optional CSS class name from Form.io (ignored in this implementation).
-  String? get _cssClass => component.raw['className'];
+  // String? get _cssClass => component.raw['className'];
 
   @override
   Widget build(BuildContext context) {

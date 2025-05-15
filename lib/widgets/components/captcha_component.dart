@@ -26,7 +26,7 @@ class CaptchaComponent extends StatelessWidget {
   String get _captchaType => component.raw['type'] ?? 'reCaptcha2';
 
   /// Placeholder key (not used here unless you're integrating).
-  String get _siteKey => component.raw['key'] ?? 'missing-site-key';
+  // String get _siteKey => component.raw['key'] ?? 'missing-site-key';
 
   /// Whether the CAPTCHA is required for form submission.
   bool get _isRequired => component.required;
