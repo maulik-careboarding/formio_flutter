@@ -5,11 +5,11 @@
 /// another parent form. The child form is rendered dynamically.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_formio/models/form_service.dart';
 
 import '../../models/component.dart';
 import '../../models/form.dart';
 import '../../network/api_client.dart';
+import '../../services/form_service.dart';
 import '../../widgets/form_renderer.dart';
 
 class NestedFormComponent extends StatefulWidget {
