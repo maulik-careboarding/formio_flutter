@@ -1,39 +1,113 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# 📦 formio_flutter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A dynamic Form.io renderer for Flutter. This package allows you to render and submit Form.io forms directly in your Flutter app using native widgets — including support for all standard, advanced, data, layout, and premium components.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+---
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## ✨ Features
 
-## Features
+- ✅ Renders Form.io JSON forms into native Flutter widgets
+- ✅ Supports dynamic form structure, validation, and conditional fields
+- ✅ Handles all core Form.io components:
+  - Basic (textfield, checkbox, radio, select, etc.)
+  - Advanced (datetime, day, currency, survey, signature)
+  - Data (datagrid, container, hidden, editgrid)
+  - Layout (panel, tabs, columns, table, well)
+  - Premium (file, nestedform, captcha)
+- 📡 Built-in API client using Dio
+- 🧠 FormProvider for state management
+- 📤 Submission support via `SubmissionService`
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+---
 
-## Getting started
+## 📦 Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the dependency in your `pubspec.yaml`:
 
-## Usage
+```yaml
+dependencies:
+  formio_flutter:
+    git:
+      url: https://github.com/mskayali/formio_flutter.git
+```
+## 🛠️ Getting Started
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
+1. Fetch a Form from Form.io
 ```dart
-const like = 'sample';
+final formService = FormService(ApiClient());
+final form = await formService.getFormByPath('/contact');
 ```
 
-## Additional information
+2. Render the Form
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+FormRenderer(
+  form: form,
+  onChanged: (data) => print('Current values: $data'),
+  onSubmit: (data) => print('Submitted: $data'),
+  onError: (err) => print('Failed: $err'),
+)
+```
+
+## 🧱 Project Structure
+
+```bash
+lib/
+├── formio_flutter.dart         # Library entry point
+├── models/                     # Form, component, submission models
+├── services/                   # API services
+├── widgets/                    # Components + FormRenderer
+├── core/                       # Constants, utils, exceptions
+├── network/                    # API client + endpoints
+└── providers/                 # Optional form state provider
+```
+### 📤 Submitting Data
+Handled automatically by FormRenderer when a "submit" button is tapped.
+
+If using manually:
+
+```dart
+final submissionService = SubmissionService(ApiClient());
+await submissionService.submit('/contact', {
+  'name': 'John',
+  'email': 'john@example.com',
+});
+```
+
+## Example
+
+```dart
+MaterialApp(
+  home: Scaffold(
+    body: FutureBuilder<FormModel>(
+      future: FormService(ApiClient()).getFormByPath('/feedback'),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return Padding(
+          padding: EdgeInsets.all(16),
+          child: FormRenderer(form: snapshot.data!),
+        );
+      },
+    ),
+  ),
+);
+```
+
+### 🔧 Roadmap
+ - [x] Core components
+
+ - [x] Layout and advanced components
+
+ - [x] Form submission support
+
+ - [ ] Conditional logic
+
+ - [ ] Validation rules (regex, min/max, etc.)
+
+ - [ ] Multi-page forms
+
+ - [ ] Offline support / caching
+
+### 🤝 Contributing
+Pull requests, issues and feedback are welcome. Please open an issue first for major changes.
+
