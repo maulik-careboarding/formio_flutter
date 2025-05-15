@@ -3,7 +3,7 @@ description: A dynamic form rendering and submission package for Flutter using F
 version: 0.1.0
 homepage: https://spinex.io
 repository: https://github.com/mskayali/formio_flutter
-issue_tracker: https://github.com/spinex-io/formio_flutter/issues
+issue_tracker: https://github.com/mskayali/formio_flutter/issues
 
 
 environment:
