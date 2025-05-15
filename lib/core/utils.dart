@@ -1,5 +1,6 @@
-import 'package:formio_flutter/core/constants.dart';
 import 'package:intl/intl.dart';
+
+import 'constants.dart';
 
 /// A set of utility functions used throughout the Form.io Flutter integration.
 ///

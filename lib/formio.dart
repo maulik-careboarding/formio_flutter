@@ -1,4 +1,4 @@
-/// Entry point for the formio_flutter package.
+/// Entry point for the formio package.
 ///
 /// This library exports all core modules and widgets needed to render
 /// dynamic forms using the Form.io schema format in Flutter.
@@ -8,10 +8,10 @@
 ///
 /// Example usage:
 /// ```dart
-/// import 'package:formio_flutter/formio_flutter.dart';
+/// import 'package:formio/formio.dart';
 /// ```
 
-library formio_flutter;
+library formio;
 
 // NOTE: other component exports can be added here if needed
 
