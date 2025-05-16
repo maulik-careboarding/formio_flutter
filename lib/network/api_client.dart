@@ -1,33 +1,37 @@
-/// A lightweight API client using Dio for interacting with Form.io endpoints.
-///
-/// This client handles base configuration, authorization token injection, and
-/// shared headers for all HTTP requests.
 import 'package:dio/dio.dart';
 
 class ApiClient {
+  /// Static base URL shared across all instances.
+  static Uri _baseUrl = Uri.parse('https://your-formio-url.com');
+
   /// Dio instance used for making HTTP requests.
-  final Dio dio;
+  late final Dio dio;
 
-  /// Creates a new instance of [ApiClient].
-  ///
-  /// Optionally accepts a [baseUrl] for the Form.io backend.
-  /// If not provided, it defaults to `https://your-formio-url.com`.
-  ApiClient({String? baseUrl}) : dio = Dio(BaseOptions(baseUrl: baseUrl ?? 'https://your-formio-url.com', headers: {'Content-Type': 'application/json'}));
+  /// Allows setting the base URL once. Future instances use the same.
+  static void setBaseUrl(Uri url) {
+    _baseUrl = url;
+  }
 
-  /// Sets the JWT token to be used for authenticated requests.
-  ///
-  /// This method attaches the token to the `x-jwt-token` header.
-  ///
-  /// Example:
-  /// ```dart
-  /// client.setAuthToken('your-jwt-token');
-  /// ```
+  /// Returns the currently set base URL.
+  static Uri get baseUrl => _baseUrl;
+
+  /// Creates a new instance of [ApiClient] using the shared base URL.
+  ApiClient() {
+    dio = Dio(BaseOptions(
+      baseUrl: _baseUrl.toString(),
+      headers: {'Content-Type': 'application/json'},
+    ));
+  }
+
   void setAuthToken(String token) {
     dio.options.headers['x-jwt-token'] = token;
   }
 
-  /// Makes a GET request to the specified [endpoint] and returns the response.
-  Future<Response<Map<String,dynamic>>> get(
+  void clearAuthToken() {
+    dio.options.headers.remove('x-jwt-token');
+  }
+
+  Future<Response<Map<String, dynamic>>> get(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -37,16 +41,15 @@ class ApiClient {
   }) {
     return dio.get(
       path,
-      data:data,
-      queryParameters:queryParameters,
-      options:options,
-      cancelToken:cancelToken,
-      onReceiveProgress:onReceiveProgress,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
     );
   }
 
-  /// Makes a POST request to the specified [endpoint] and returns the response.
-  Future<Response<Map<String,dynamic>>> post(
+  Future<Response<Map<String, dynamic>>> post(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -56,18 +59,11 @@ class ApiClient {
   }) {
     return dio.post(
       path,
-      data:data,
-      queryParameters:queryParameters,
-      options:options,
-      cancelToken:cancelToken,
-      onReceiveProgress:onReceiveProgress,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
     );
-  }
-  
-  /// Removes the JWT token from headers.
-  ///
-  /// This method can be used during logout or token refresh events.
-  void clearAuthToken() {
-    dio.options.headers.remove('x-jwt-token');
   }
 }

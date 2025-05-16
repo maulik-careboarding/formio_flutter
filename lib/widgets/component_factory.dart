@@ -52,6 +52,17 @@ typedef OnComponentChanged = void Function(dynamic value);
 class ComponentFactory {
   /// Creates the appropriate widget for a given component.
   static Widget build({required ComponentModel component, dynamic value, required OnComponentChanged onChanged}) {
+    if (component.conditional != null) {
+      final when = component.conditional?['when'];
+      final eq = component.conditional?['eq'];
+      final show = component.conditional?['show'] == 'true';
+      final currentValue = value is Map<String, dynamic> ? value[when] : null;
+      final matches = currentValue?.toString() == eq?.toString();
+      final shouldShow = show ? matches : !matches;
+      if (!shouldShow) {
+        return const SizedBox.shrink();
+      }
+    }
     switch (component.type) {
       // Basic
       case 'textfield':

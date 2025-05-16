@@ -3,6 +3,8 @@
 /// Provides methods to fetch form definitions from the Form.io backend,
 /// either as a list of available forms or a single form by its path or ID.
 
+import 'package:dio/dio.dart';
+
 import '../models/form.dart';
 import '../network/api_client.dart';
 
@@ -21,10 +23,31 @@ class FormService {
   ///
   /// Throws [DioError] on failure.
   Future<List<FormModel>> fetchForms() async {
-    final response = await client.dio.get('/form');
-    final data = response.data as List<dynamic>;
+    try {
+      final response = await client.dio.get('/form');
+      if (response.data is List<dynamic>) {
+        final data = response.data as List<dynamic>;
+        return data.map((json) => FormModel.fromJson(json as Map<String, dynamic>)).toList();
+      }
+      
+      // handle response
+    } on DioException catch (e) {
+      print('DioException occurred:');
+      print('Type: ${e.type}');
+      print('Message: ${e.message}');
+      print('Request: ${e.requestOptions.method} ${e.requestOptions.uri}');
+      if (e.response != null) {
+        print('Status code: ${e.response?.statusCode}');
+        print('Data: ${e.response?.data}');
+        print('Headers: ${e.response?.headers}');
+      } else {
+        print('Underlying error: ${e.error}');
+      }
+    } catch (e) {
+      print('Other exception: $e');
+    }
+    throw 'Failed to fetch forms';
 
-    return data.map((json) => FormModel.fromJson(json as Map<String, dynamic>)).toList();
   }
 
   /// Fetches a single form using its path or ID from Form.io.

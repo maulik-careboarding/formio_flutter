@@ -37,6 +37,12 @@ class PanelComponent extends StatelessWidget {
     onChanged(updated);
   }
 
+  void _updateField(String key, dynamic val) {
+    final updated = Map<String, dynamic>.from(value);
+    updated[key] = val;
+    onChanged(updated);
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = component.label;
@@ -49,17 +55,29 @@ class PanelComponent extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (title.isNotEmpty) Text(title, style: Theme.of(context).textTheme.displaySmall, textAlign: TextAlign.left),
-            if (_description != null)
-              Padding(padding: const EdgeInsets.only(top: 4, bottom: 12), child: Text(_description!, style: Theme.of(context).textTheme.bodySmall)),
-            ..._children.map(
-              (child) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: ComponentFactory.build(component: child, value: value[child.key], onChanged: (val) => _updateChild(child.key, val)),
+          children: _children.where((child) {
+            // Optional pre-check for conditional inside child
+            final condition = child.conditional;
+            if (condition == null || condition['when'] == null) return true;
+
+            final controllingKey = condition['when'];
+            final expectedValue = condition['eq'];
+            final actualValue = value[controllingKey];
+
+            final matches = actualValue?.toString() == expectedValue?.toString();
+            final shouldShow = condition['show'] == 'true' ? matches : !matches;
+
+            return shouldShow;
+          }).map((child) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: ComponentFactory.build(
+                component: child,
+                value: value[child.key],
+                onChanged: (val) => _updateField(child.key, val),
               ),
-            ),
-          ],
+            );
+          }).toList(),
         ),
       ),
     );

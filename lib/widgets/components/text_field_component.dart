@@ -16,7 +16,12 @@ class TextFieldComponent extends StatelessWidget {
   /// Callback called when the user changes the input value.
   final ValueChanged<String> onChanged;
 
-  const TextFieldComponent({Key? key, required this.component, required this.value, required this.onChanged}) : super(key: key);
+  const TextFieldComponent({
+    Key? key,
+    required this.component,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
 
   /// Retrieves a placeholder value if available in the raw JSON.
   String? get _placeholder => component.raw['placeholder'];
@@ -27,8 +32,13 @@ class TextFieldComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: ValueKey(component.key), // Ensures rebuild on condition change
       initialValue: value ?? component.defaultValue?.toString(),
-      decoration: InputDecoration(labelText: component.label, hintText: _placeholder, border: const OutlineInputBorder()),
+      decoration: InputDecoration(
+        labelText: component.label,
+        hintText: _placeholder,
+        border: const OutlineInputBorder(),
+      ),
       onChanged: onChanged,
       validator: _isRequired ? (val) => (val == null || val.isEmpty) ? '${component.label} is required.' : null : null,
     );

@@ -23,7 +23,7 @@ class SubmissionService {
   Future<SubmissionModel> submit(String formPath, Map<String, dynamic> data) async {
     try {
       final url = ApiEndpoints.postSubmission(formPath);
-      final response = await client.post(url, data: {'data': data});
+      final response = await client.dio.post(url, data: {'data': data});
       return SubmissionModel.fromJson(response.data ?? {});
     } catch (e) {
       throw SubmissionException('Failed to submit form: $e');
@@ -35,7 +35,7 @@ class SubmissionService {
   /// Useful for edit/view workflows.
   Future<SubmissionModel> fetchById(String formPath, String submissionId) async {
     try {
-      final response = await client.get('$formPath/submission/$submissionId');
+      final response = await client.dio.get('$formPath/submission/$submissionId');
       return SubmissionModel.fromJson(response.data ?? {});
     } catch (e) {
       throw SubmissionException('Failed to fetch submission: $e');

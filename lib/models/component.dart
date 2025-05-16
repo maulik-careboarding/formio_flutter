@@ -2,8 +2,6 @@
 ///
 /// Each component defines its type (e.g., textfield, checkbox), key,
 /// label, validation rules, and other configuration options.
-/// This model serves as the base for dynamically rendering components
-/// in a Flutter form UI.
 
 class ComponentModel {
   /// Type of the component (e.g., "textfield", "select", "checkbox").
@@ -22,30 +20,55 @@ class ComponentModel {
   final dynamic defaultValue;
 
   /// The original raw JSON structure of the component.
-  ///
-  /// Useful for accessing custom or advanced properties not explicitly modeled.
   final Map<String, dynamic> raw;
 
-  /// Constructs a [ComponentModel] with the given properties.
-  ComponentModel({required this.type, required this.key, required this.label, required this.required, this.defaultValue, required this.raw});
+  ComponentModel({
+    required this.type,
+    required this.key,
+    required this.label,
+    required this.required,
+    this.defaultValue,
+    required this.raw,
+  });
 
-  /// Creates a [ComponentModel] instance from a JSON object.
-  ///
-  /// This function maps essential fields such as `type`, `key`, `label`,
-  /// and `validate.required` from Form.io's component JSON.
   factory ComponentModel.fromJson(Map<String, dynamic> json) {
+    final validate = json['validate'] as Map<String, dynamic>?;
+
     return ComponentModel(
-      type: json['type'] as String,
-      key: json['key'] as String,
-      label: json['label'] ?? '',
-      required: json['validate']?['required'] ?? false,
+      type: json['type']?.toString() ?? 'unknown',
+      key: json['key']?.toString() ?? '',
+      label: json['label']?.toString() ?? '',
+      required: validate?['required'] == true || validate?['required'] == 'true',
       defaultValue: json['defaultValue'],
-      raw: json,
+      raw: json..removeWhere((k,v)=>['type','key','label','defaultValue'].contains(k)),
     );
   }
 
-  /// Converts this [ComponentModel] instance into a JSON-compatible map.
-  ///
-  /// The original `raw` JSON is returned here to preserve full structure.
   Map<String, dynamic> toJson() => raw;
+
+  /// Conditional logic configuration for this component.
+  ///
+  /// Example:
+  /// {
+  ///   "show": "true",
+  ///   "when": "otherFieldKey",
+  ///   "eq": "yes"
+  /// }
+  Map<String, dynamic>? get conditional {
+    final rawValue = raw['conditional'];
+    if (rawValue is Map<String, dynamic>) {
+      return rawValue;
+    }
+    return null;
+  }
+
+  /// Normalized conditional.show as bool
+  bool get shouldShowConditionally {
+    final show = conditional?['show'];
+    return show == true || show == 'true';
+  }
+
+  String? get conditionalField => conditional?['when']?.toString();
+
+  dynamic get conditionalValue => conditional?['eq'];
 }

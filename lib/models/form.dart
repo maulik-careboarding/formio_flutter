@@ -48,4 +48,8 @@ class FormModel {
   Map<String, dynamic> toJson() {
     return {'_id': id, 'path': path, 'title': title, 'components': components.map((c) => c.toJson()).toList()};
   }
+  @override
+  String toString() {
+    return  '${runtimeType}: ${toJson()}';
+  }
 }

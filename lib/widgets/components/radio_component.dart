@@ -18,13 +18,19 @@ class RadioComponent extends StatelessWidget {
   /// Callback triggered when the user selects a new option.
   final ValueChanged<dynamic> onChanged;
 
-  const RadioComponent({Key? key, required this.component, required this.value, required this.onChanged}) : super(key: key);
+  const RadioComponent({
+    Key? key,
+    required this.component,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
 
   /// Whether the field is marked as required.
   bool get _isRequired => component.required;
 
   /// List of values the user can select from.
-  List<Map<String, dynamic>> get _values => List<Map<String, dynamic>>.from(component.raw['values'] ?? []);
+  List<Map<String, dynamic>> get _values =>
+      List<Map<String, dynamic>>.from(component.raw['values'] ?? []);
 
   /// Validates selection based on requirement.
   String? _validator() {
@@ -37,6 +43,7 @@ class RadioComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final error = _validator();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,6 +53,7 @@ class RadioComponent extends StatelessWidget {
           final optionValue = option['value'];
 
           return RadioListTile(
+            key: ValueKey('${component.key}_$optionValue'), // Ensure rebuild
             value: optionValue,
             groupValue: value,
             title: Text(optionLabel.toString()),
@@ -58,7 +66,13 @@ class RadioComponent extends StatelessWidget {
         if (error != null)
           Padding(
             padding: const EdgeInsets.only(left: 12, top: 4),
-            child: Text(error, style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12)),
+            child: Text(
+              error,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 12,
+              ),
+            ),
           ),
       ],
     );

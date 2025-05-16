@@ -17,7 +17,12 @@ class SelectComponent extends StatelessWidget {
   /// Callback triggered when the user selects an option.
   final ValueChanged<dynamic> onChanged;
 
-  const SelectComponent({Key? key, required this.component, required this.value, required this.onChanged}) : super(key: key);
+  const SelectComponent({
+    Key? key,
+    required this.component,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
 
   /// Whether the field is marked as required.
   bool get _isRequired => component.required;
@@ -44,19 +49,26 @@ class SelectComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputDecorator(
-          decoration: InputDecoration(labelText: component.label, border: const OutlineInputBorder(), errorText: error),
+          key: ValueKey(component.key), // ensure proper rebuild when visibility toggles
+          decoration: InputDecoration(
+            labelText: component.label,
+            border: const OutlineInputBorder(),
+            errorText: error,
+          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<dynamic>(
               isExpanded: true,
               hint: Text(_placeholder ?? 'Select...'),
               value: value,
               onChanged: onChanged,
-              items:
-                  _values.map((option) {
-                    final label = option['label']?.toString() ?? '';
-                    final val = option['value'];
-                    return DropdownMenuItem<dynamic>(value: val, child: Text(label));
-                  }).toList(),
+              items: _values.map((option) {
+                final label = option['label']?.toString() ?? '';
+                final val = option['value'];
+                return DropdownMenuItem<dynamic>(
+                  value: val,
+                  child: Text(label),
+                );
+              }).toList(),
             ),
           ),
         ),
