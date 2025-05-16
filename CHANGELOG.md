@@ -32,6 +32,10 @@ This project follows [Semantic Versioning](https://semver.org).
 
 ---
 
+## [0.1.1] - 2025-05-15
+- Example Project added
+- minor bugs foxed
+---
 ## [Unreleased]
 
 ### 🚧 Upcoming
