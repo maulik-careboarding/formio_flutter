@@ -11,7 +11,7 @@
 /// import 'package:formio/formio.dart';
 /// ```
 
-library formio;
+library;
 
 // NOTE: other component exports can be added here if needed
 

@@ -21,7 +21,7 @@ class FormService {
   ///
   /// Returns a list of [FormModel] objects.
   ///
-  /// Throws [DioError] on failure.
+  /// Throws [DioException] on failure.
   Future<List<FormModel>> fetchForms() async {
     try {
       final response = await client.dio.get('/form');
@@ -29,25 +29,16 @@ class FormService {
         final data = response.data as List<dynamic>;
         return data.map((json) => FormModel.fromJson(json as Map<String, dynamic>)).toList();
       }
-      
+
       // handle response
-    } on DioException catch (e) {
-      print('DioException occurred:');
-      print('Type: ${e.type}');
-      print('Message: ${e.message}');
-      print('Request: ${e.requestOptions.method} ${e.requestOptions.uri}');
-      if (e.response != null) {
-        print('Status code: ${e.response?.statusCode}');
-        print('Data: ${e.response?.data}');
-        print('Headers: ${e.response?.headers}');
-      } else {
-        print('Underlying error: ${e.error}');
-      }
+    } on DioException {
+      // Log DioException details for debugging
+      rethrow;
     } catch (e) {
-      print('Other exception: $e');
+      // Log other exceptions for debugging
+      rethrow;
     }
     throw 'Failed to fetch forms';
-
   }
 
   /// Fetches a single form using its path or ID from Form.io.
@@ -58,7 +49,7 @@ class FormService {
   ///
   /// Returns a [FormModel] object.
   ///
-  /// Throws [DioError] on failure.
+  /// Throws [DioException] on failure.
   Future<FormModel> getFormByPath(String pathOrId) async {
     final response = await client.dio.get('/form/$pathOrId');
     return FormModel.fromJson(response.data as Map<String, dynamic>);

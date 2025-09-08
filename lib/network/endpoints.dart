@@ -6,7 +6,7 @@
 class ApiEndpoints {
   /// Returns the full path to fetch a form schema.
   /// Example: `/registration`
-  static String getForm(String path) => '$path';
+  static String getForm(String path) => path;
 
   /// Returns the path to create a new submission.
   /// Example: `/registration/submission`

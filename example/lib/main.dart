@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:formio/formio.dart';
 
@@ -47,21 +45,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<FormModel> forms = [];
+  int index = 0;
+
   @override
-  List<FormModel> forms=[];
-  int index=0;
   void initState() {
     ApiClient.setBaseUrl(Uri.parse('https://formio.spinex.io'));
     final formService = FormService(ApiClient());
-    formService.fetchForms().then((e){
+    formService.fetchForms().then((e) {
       forms = e;
-      print(forms.length);
-      setState(() {
-        
-      });
+      // Debug: print(forms.length);
+      setState(() {});
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,31 +67,34 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body:ListView(
+      body: ListView(
         children: [
           Container(
-            padding: EdgeInsets.all(20), 
-            child: Text('Form Number: ${index+1} of ${forms.length}'),
+            padding: const EdgeInsets.all(20),
+            child: Text('Form Number: ${index + 1} of ${forms.length}'),
           ),
           Container(
-            padding: EdgeInsets.all(20), 
-            child:  forms.isEmpty ? SizedBox() : FormRenderer(form: forms[index],)
-          ),
-          Container(padding: EdgeInsets.all(20), child: forms.isEmpty ? SizedBox() : Text(forms[index].toJson().toString())),
+              padding: const EdgeInsets.all(20),
+              child: forms.isEmpty
+                  ? const SizedBox()
+                  : FormRenderer(
+                      form: forms[index],
+                    )),
+          Container(padding: const EdgeInsets.all(20), child: forms.isEmpty ? const SizedBox() : Text(forms[index].toJson().toString())),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-              onPressed: (){
-                if(forms.isNotEmpty && forms.length > index+1){
-                  index++;
-                }
-                setState(() {
-                  print(jsonEncode(forms[index]));
-                });
-              },
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
-            ), 
+        onPressed: () {
+          if (forms.isNotEmpty && forms.length > index + 1) {
+            index++;
+          }
+          setState(() {
+            // Debug: print(jsonEncode(forms[index]));
+          });
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
